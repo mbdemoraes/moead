@@ -1,11 +1,11 @@
 from common.problem import Problem
-from algorithms.moead_rfts import Moead_Rfts
+from algorithms.moead import Moead_Rfts
+from filemanager.csv_exporter import CsvExporter
 import random
 
 """
 Contains a working example of MOEA/D-RFTS on the Binary Multi-Objective Unconstrained
-Combinatorial Optimization Problem (BIN_MUCOP). Fore more information on the algorithm and the test
-function, please refer to the paper
+Combinatorial Optimization Problem (BIN_MUCOP). Fore more information on the algorithm please refer to the paper:
 
 M. B. De Moraes and G. P. Coelho, "A Random Forest-Assisted
 Decomposition-Based Evolutionary Algorithm for Multi-Objective
@@ -18,7 +18,7 @@ pp. 1-8, doi: 10.1109/CEC55065.2022.9870412.
 #optimization parameters
 num_of_variables = 100
 num_of_individuals = 100
-generations = 100
+generations = 10
 directions = ["max", "max"]
 
 #Get the profit vector from the instance file
@@ -72,7 +72,10 @@ random.seed()
 iteration = Moead_Rfts(problem=problem,
                        num_of_neighborhoods=num_of_neighborhoods)
 #Runs the optimization
-iteration.run()
+best_individuals = iteration.run()
+csv_handler = CsvExporter()
+csv_handler.result_to_csv(best_individuals=best_individuals, num_of_variables=num_of_variables, num_of_objectives=len(directions))
+
 
 
 

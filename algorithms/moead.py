@@ -31,6 +31,7 @@ class Moead_Rfts:
         self.z = None
         self.visited_external = set()
         self.num_of_neighborhoods = num_of_neighborhoods
+        self.best_individuals = []
 
 
     def run(self):
@@ -71,19 +72,27 @@ class Moead_Rfts:
                 if tuple(individual.features) not in self.visited_external:
                     self.visited_external.add(tuple(individual.features))
                     self.external_population.append(individual)
-            lst = []
-            lst_x = []
-            lst_y = []
+            #lst = []
+            #lst_x = []
+            #lst_y = []
+            self.best_individuals = []
+
 
             #Non-dominated sorting to identify the non_dominated solutions
             #of the external population
             self.ndsort.fast_nondominated_sort(self.external_population)
             for individual in self.external_population.fronts[0]:
-                lst.append(individual.objectives)
-                lst_x.append(individual.objectives[0])
-                lst_y.append(individual.objectives[1])
+                new_dict = {}
+                new_dict['decision_vector'] = individual.features
+                new_dict['objective_functions'] = individual.objectives
+                self.best_individuals.append(new_dict)
+                # lst.append(individual.objectives)
+                # lst_x.append(individual.objectives[0])
+                # lst_y.append(individual.objectives[1])
 
-            #Plot the non-dominated solutions found so far during the optimization
+            # Plot the non-dominated solutions found so far during the optimization
+            lst_x = [d['objective_functions'][0] for d in self.best_individuals]
+            lst_y = [d['objective_functions'][1] for d in self.best_individuals]
             plt.scatter(lst_x, lst_y, marker='o', color='#0139DD', s=17)
             plt.title("Non-dominated solutions found so far")
             plt.xlabel('f1 (max)')
@@ -94,5 +103,7 @@ class Moead_Rfts:
             plt.clf()
 
         plt.close()
+
+        return self.best_individuals
 
 

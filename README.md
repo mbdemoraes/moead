@@ -14,7 +14,7 @@ Combinatorial Optimization Problem (BIN_MUCOP) as a benchmark problem.
 Simply run the ```main.py``` script.
 
 ## Citation
-For information about the algorithm or the benchmark problem, 
+For information about the algorithm, 
 please refer to the paper:
     
 *Q. Zhang and H. Li, "MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition," in IEEE Transactions on Evolutionary Computation, vol. 11, no. 6, pp. 712-731, Dec. 2007, doi: 10.1109/TEVC.2007.892759.*
