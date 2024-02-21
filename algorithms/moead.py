@@ -7,7 +7,7 @@ from common.population import Population
 from common.offspring_generation import OffspringGeneration
 import matplotlib.pyplot as plt
 
-class Moead_Rfts:
+class Moead:
     """
     Implementation of MOEA/D algorithm based on the paper
     Q. Zhang and H. Li, "MOEA/D: A Multiobjective Evolutionary Algorithm Based on Decomposition,"
@@ -75,9 +75,7 @@ class Moead_Rfts:
                 if tuple(individual.features) not in self.visited_external:
                     self.visited_external.add(tuple(individual.features))
                     self.external_population.append(individual)
-            #lst = []
-            #lst_x = []
-            #lst_y = []
+
             self.best_individuals = []
 
 
@@ -89,9 +87,7 @@ class Moead_Rfts:
                 new_dict['decision_vector'] = individual.features
                 new_dict['objective_functions'] = individual.objectives
                 self.best_individuals.append(new_dict)
-                # lst.append(individual.objectives)
-                # lst_x.append(individual.objectives[0])
-                # lst_y.append(individual.objectives[1])
+
 
             self.best_per_iteration.append(copy.deepcopy(self.best_individuals))
             # Plot the non-dominated solutions found so far during the optimization

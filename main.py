@@ -1,5 +1,5 @@
 from common.problem import Problem
-from algorithms.moead import Moead_Rfts
+from algorithms.moead import Moead
 from filemanager.csv_exporter import CsvExporter
 from figurehandler.figure_exporter import FigureExporter
 from metrics.metrics import Metrics
@@ -20,8 +20,9 @@ pp. 1-8, doi: 10.1109/CEC55065.2022.9870412.
 #optimization parameters
 num_of_variables = 50
 num_of_individuals = 100
-generations = 10
+generations = 20
 directions = ["max", "max"]
+num_of_neighborhoods = 5
 
 #Get the profit vector from the instance file
 def get_profit_vector(number, num_of_variables):
@@ -65,14 +66,11 @@ problem = Problem(num_of_variables=num_of_variables,
                   num_of_generations=generations,
                   directions=directions)
 
-#MOEA/D-RFTS hyper-parameters
-num_of_neighborhoods = 5
-
 random.seed()
 
 #Calls the algorithm and sets the parameters
-iteration = Moead_Rfts(problem=problem,
-                       num_of_neighborhoods=num_of_neighborhoods)
+iteration = Moead(problem=problem,
+                  num_of_neighborhoods=num_of_neighborhoods)
 #Runs the optimization
 best_individuals, best_per_iteration = iteration.run()
 csv_handler = CsvExporter()
