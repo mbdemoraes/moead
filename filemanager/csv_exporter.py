@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 class CsvExporter:
 
-    def result_to_csv(self, best_individuals, num_of_variables, num_of_objectives):
+    def result_to_csv(self, best_individuals, num_of_variables, num_of_objectives, filename):
         # Get the absolute path of the project directory
         project_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,10 +16,11 @@ class CsvExporter:
 
         # Construct the absolute path of the directory inside the project
         directory_absolute_path = os.path.join(project_dir, results_dir)
-        filename = directory_absolute_path + "results.csv"
+        filename = directory_absolute_path + filename
 
         if not os.path.exists(filename):
-            with open(filename, "a+") as file:
+            #Please note that the option "w" is used to overwrite the existing content if the file already exists
+            with open(filename, "w") as file:
                 header = ""
                 for i in range(num_of_variables):
                     header += "var" + str(i) + ","
@@ -33,7 +34,8 @@ class CsvExporter:
                 file.write(header + "\n")
         count = 0
 
-        with open(filename, "a+") as file:
+        # Please note that the option "w" is used to overwrite the existing content if the file already exists
+        with open(filename, "w") as file:
             for vector in best_individuals:
                 decision_vector = vector['decision_vector']
                 objective_functions = vector['objective_functions']

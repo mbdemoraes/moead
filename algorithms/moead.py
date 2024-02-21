@@ -1,3 +1,5 @@
+import copy
+
 from common.non_dominated_sort import Non_Dominated_Sort
 from common.moead_utils import MoeadUtils
 import numpy as np
@@ -32,6 +34,7 @@ class Moead_Rfts:
         self.visited_external = set()
         self.num_of_neighborhoods = num_of_neighborhoods
         self.best_individuals = []
+        self.best_per_iteration = []
 
 
     def run(self):
@@ -90,6 +93,7 @@ class Moead_Rfts:
                 # lst_x.append(individual.objectives[0])
                 # lst_y.append(individual.objectives[1])
 
+            self.best_per_iteration.append(copy.deepcopy(self.best_individuals))
             # Plot the non-dominated solutions found so far during the optimization
             lst_x = [d['objective_functions'][0] for d in self.best_individuals]
             lst_y = [d['objective_functions'][1] for d in self.best_individuals]
@@ -104,6 +108,6 @@ class Moead_Rfts:
 
         plt.close()
 
-        return self.best_individuals
+        return self.best_individuals,self.best_per_iteration
 
 

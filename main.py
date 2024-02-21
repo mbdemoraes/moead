@@ -1,6 +1,8 @@
 from common.problem import Problem
 from algorithms.moead import Moead_Rfts
 from filemanager.csv_exporter import CsvExporter
+from figurehandler.figure_exporter import FigureExporter
+from metrics.metrics import Metrics
 import random
 
 """
@@ -16,7 +18,7 @@ pp. 1-8, doi: 10.1109/CEC55065.2022.9870412.
 """
 
 #optimization parameters
-num_of_variables = 100
+num_of_variables = 50
 num_of_individuals = 100
 generations = 10
 directions = ["max", "max"]
@@ -72,13 +74,22 @@ random.seed()
 iteration = Moead_Rfts(problem=problem,
                        num_of_neighborhoods=num_of_neighborhoods)
 #Runs the optimization
-best_individuals = iteration.run()
+best_individuals, best_per_iteration = iteration.run()
 csv_handler = CsvExporter()
-csv_handler.result_to_csv(best_individuals=best_individuals, num_of_variables=num_of_variables, num_of_objectives=len(directions))
 
+#Create a result file with the best individuals of each generation
+for i in range(generations):
+    csv_handler.result_to_csv(best_individuals=best_per_iteration[i], num_of_variables=num_of_variables, num_of_objectives=len(directions), filename='results_gen_' + str(i+1))
 
+#Calculate the metrics of IGD and HV for each generation
+metrics = Metrics()
+all_igds = metrics.calc_igd(num_of_variables=num_of_variables, num_of_objectives=len(directions), num_of_generations=generations)
+all_hvs = metrics.calc_hv(num_of_variables=num_of_variables, num_of_objectives=len(directions), num_of_generations=generations)
 
-
+#Create figures with the results of IGD and HV
+fig_exporter = FigureExporter()
+fig_exporter.export_figure(all_igds, type="IGD")
+fig_exporter.export_figure(all_hvs, type="HV")
 
 
 
